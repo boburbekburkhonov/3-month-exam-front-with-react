@@ -1,0 +1,22 @@
+body{
+  background-color: #F7F7F7;
+}
+
+h2 {
+  font-size: 22px;
+  color: dodgerblue;
+  font-weight: 600;
+
+}
+
+.home-logo {
+  background-color: transparent;
+}
+
+.home-admin-heading {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+  margin-left: 10px;
+  color: dodgerblue;
+}

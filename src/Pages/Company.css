@@ -1,0 +1,34 @@
+.card-style {
+  border: 5px solid #DBEDFF;
+  margin-top: 0 !important;
+  padding: 20px 30px;
+  max-width: 700px;
+  text-align: center;
+  color: #314fd6;
+  border-radius: 25px;
+}
+
+.delete-btn {
+  border: none;
+  background: transparent;
+  background-image: url('https://cdn-icons-png.flaticon.com/128/6861/6861362.png');
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+}
+
+.company-span {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1E90FF;
+}
+
+.company-btn {
+  background-color: #1E90FF;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  max-width: 150px;
+  width: 100%;
+}
