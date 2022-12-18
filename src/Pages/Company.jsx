@@ -21,14 +21,9 @@ const Admin = () => {
   const[count, setCount] = useState(1)
 
   useEffect(() => {
-    fetch('http://localhost:9090/company', {
-      method: 'GET',
-      headers: {
-        'access_token': token
-      }
-    })
-    .then(res => res.json())
-    .then(data => setCompany(data))
+    fetch("http://localhost:9090/company")
+      .then((res) => res.json())
+      .then((data) => setCompany(data));
   }, [count])
 
   const addCompany = e => {
