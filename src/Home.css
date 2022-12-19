@@ -20,3 +20,67 @@ h2 {
   margin-left: 10px;
   color: dodgerblue;
 }
+
+.company-img {
+  border-radius: 10px;
+}
+
+.complex-desc {
+  margin: 0;
+  margin-top: 25px;
+  font-weight: 600;
+  font-size: 25px;
+  color: #1E90FF;
+}
+
+.wrapper-home {
+  max-height: 740px;
+  overflow: auto !important;
+}
+
+.rooms-wrapper {
+  max-width: 350px;
+}
+
+.rooms-desc {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1A171B;
+}
+
+.rooms-value {
+  color: #1E90FF;
+}
+
+.bank-heading {
+  margin: 0;
+  margin-top: 25px;
+  font-weight: 600;
+  font-size: 25px;
+  color: #1E90FF;
+}
+
+.bank-calc-heading{
+  margin: 0;
+  margin-top: 35px;
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 25px;
+  color: #1E90FF;
+}
+
+.bank-desc {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1A171B;
+}
+
+.bank-span {
+  color: #1E90FF;
+}
+
+.calc-img {
+  border-radius: 10px;
+}

@@ -11,9 +11,13 @@ const User = () => {
   const [roomsGet, setRoomsGet] = useState();
   const [roomsId, setRoomsId] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [banks, setBanks] = useState([]);
+  const [bankId, setBankId] = useState([]);
+  const [roomsPrice, setRoomsPrice] = useState();
 
   const complexSelectRef = useRef();
   const roomsSelectRef = useRef();
+  const contentWrapper = useRef();
 
   // GET COMPANY
   useEffect(() => {
@@ -39,6 +43,7 @@ const User = () => {
       .then((res) => res.json())
       .then((data) => setCompanyId(data));
   };
+
   // GET COMPLEX
   useEffect(() => {
     fetch(`http://localhost:9090/complex/company/${complexGet}`)
@@ -65,12 +70,31 @@ const User = () => {
   const roomsById = (e) => {
     fetch(`http://localhost:9090/rooms/${e.target.value}`)
       .then((res) => res.json())
-      .then((data) => setRoomsId(data));
+      .then((data) => setRoomsId([data]));
   };
 
-  console.log(companyId, complexId, roomsId);
+  const percentage = (e) => {
+    fetch(`http://localhost:9090/banks/${e.target.value}`)
+      .then((res) => res.json())
+      .then((data) => setBanks(data));
+  };
+
+  useEffect(() => {
+    let roomPrice;
+
+    roomsId.map((e) => {
+      roomPrice = e.room_size * Number(e.room_price.replaceAll(" ", ""));
+    });
+
+    setRoomsPrice(roomPrice);
+
+    const [firstBank] = banks.filter((e) => e.bank_give_money > roomPrice);
+
+    setBankId([firstBank]);
+  }, [banks]);
+
   return (
-    <div>
+    <div className="wrapper-home">
       <div className="container">
         <div className="d-flex justify-content-between align-items-center">
           <a href="#">
@@ -169,19 +193,160 @@ const User = () => {
 
           <div className="mw-25">
             <h2 className="mb-4">Choose Mortage Duration:</h2>
-            <select disabled className="form-select">
+            <select onChange={percentage} className="form-select">
               <option selected disabled hidden>
                 Choose Mortage Duration
               </option>
-              <option value="">5</option>
-              <option value="">10</option>
-              <option value="">15</option>
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
             </select>
           </div>
         </div>
 
-        <div className="pt-5">
-          <h1 className="text-center">Content</h1>
+        <div className="d-flex justify-content-between">
+          <div className="pt-5">
+            {companyId.length > 0 &&
+              companyId.map((e, i) => {
+                return (
+                  <div key={i}>
+                    <img
+                      className="company-img"
+                      width="250"
+                      height="150"
+                      src={e.company_img_url}
+                      alt=""
+                    />
+                  </div>
+                );
+              })}
+
+            <div ref={contentWrapper} className="content-wrapper">
+              {complexId.length > 0 &&
+                complexId.map((e, i) => {
+                  return (
+                    <p className="complex-desc" key={i}>
+                      {e.complex_name}
+                    </p>
+                  );
+                })}
+
+              {roomsId.length > 0 &&
+                roomsId.map((e, i) => {
+                  return (
+                    <div className="rooms-wrapper pt-4 pb-4" key={i}>
+                      <div>
+                        <p className="rooms-desc">
+                          Xona:{" "}
+                          <span className="rooms-value">
+                            {e.room_count} xona
+                          </span>
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="rooms-desc">
+                          Kattaligi:{" "}
+                          <span className="rooms-value">{e.room_size} m²</span>
+                        </p>
+                      </div>
+
+                      <div>
+                        <p className="rooms-desc">
+                          Narxi (1m²):{" "}
+                          <span className="rooms-value">
+                            {e.room_price} so'm
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+
+          <div>
+            {!bankId.includes(undefined) &&
+              bankId.map((e, i) => {
+                return (
+                  <div key={i}>
+                    <img
+                      width="300"
+                      height="220"
+                      src="https://download.logo.wine/logo/Chase_Bank/Chase_Bank-Logo.wine.png"
+                      alt="logo"
+                    />
+
+                    <h2 className="bank-heading mb-4">{e.bank_name}</h2>
+
+                    <p className="bank-desc">
+                      Bank pul berishi:{" "}
+                      <span className="bank-span">
+                        {e.bank_give_money} so'm
+                      </span>
+                    </p>
+                    <p className="bank-desc">
+                      To'lov muddati:{" "}
+                      <span className="bank-span">{e.bank_money_term} yil</span>
+                    </p>
+                    <p className="bank-desc">
+                      Boshlang'ich to'lov:{" "}
+                      <span className="bank-span">{e.bank_percentage} %</span>
+                    </p>
+                  </div>
+                );
+              })}
+          </div>
+
+          <div>
+            {!bankId.includes(undefined) &&
+              bankId.map((e, i) => {
+                return (
+                  <div key={i} className="pt-5 mb-4">
+                    <img
+                      className="calc-img"
+                      width="250"
+                      height="150"
+                      src="https://thumbs.dreamstime.com/b/error-word-inscription-concept-failure-mistake-205503351.jpg"
+                      alt="logo"
+                    />
+
+                    <h2 className="bank-calc-heading">Kalkulator</h2>
+
+                    <p className="bank-desc">
+                      Uyning narxi:{" "}
+                      <span className="bank-span">{roomsPrice} so'm</span>
+                    </p>
+                    <p className="bank-desc">
+                      Boshlang'ich to'lov:{" "}
+                      <span className="bank-span">
+                        {(roomsPrice * e.bank_percentage) / 100} so'm
+                      </span>
+                    </p>
+                    <p className="bank-desc">
+                      Oylik to'lov:{" "}
+                      <span className="bank-span">
+                        {Math.ceil(
+                          (roomsPrice -
+                            (roomsPrice * e.bank_percentage) / 100) /
+                            (12 * e.bank_money_term)
+                        )}
+                        so'm
+                      </span>
+                    </p>
+                    <p className="bank-desc">
+                      To'lov muddati:{" "}
+                      <span className="bank-span">{e.bank_money_term} yil</span>
+                    </p>
+
+                    <p className="bank-desc">
+                      Bank Xizmati:{" "}
+                      <span className="bank-span">2 500 000 so'm</span>
+                    </p>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
     </div>
